@@ -12,10 +12,22 @@ p1 = sqrt(5);
 p2 = p1;
 p3 = p2;
 
+plotf = false;
+
 
 %1
 disp(f(pi/4));
 disp(f(-pi/4));
+k = waitforbuttonpress;
+
+%2
+ezplot(@f, [-pi pi])
+k = waitforbuttonpress;
+
+%3
+plotf = true;
+f(pi/4)
+
 
 
 
@@ -25,7 +37,7 @@ disp(f(-pi/4));
 
 
 function out = f(theta)
-    global L1 L2 L3 x1 x2 y2 gamma p1 p2 p3;
+    global L1 L2 L3 x1 x2 y2 gamma p1 p2 p3 plotf;
     
     A2 = L3*(cos(theta))- x1;
     B2 = L3*(sin(theta));
@@ -45,15 +57,17 @@ function out = f(theta)
     p3y = y + (L2*sin(theta + gamma));
 
 
-    %plot([x p2x p3x x], [y p2y p3y y], 'r'); hold on
-    %plot([0 x1 x2], [0 0 y2], 'bo');
+    if plotf
+        plot([x p2x p3x x], [y p2y p3y y], 'r'); hold on
+        plot([0 x1 x2], [0 0 y2], 'bo');
 
-    %%Plot p1
-    %plot([0 x], [0 y]);
-    %%Plot p2
-    %plot([x1 p2x], [0 p2y]);
-    %%Plot p3
-    %plot([x2 p3x], [y2 p3y]);
+        %Plot p1
+        plot([0 x], [0 y]);
+        %Plot p2
+        plot([x1 p2x], [0 p2y]);
+        %Plot p3
+        plot([x2 p3x], [y2 p3y]);
+    end
 
     out = N1^2 + N2^2 - ((p1^2)* (D^2));
 end
