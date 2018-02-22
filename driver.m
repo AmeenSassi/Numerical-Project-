@@ -47,8 +47,14 @@ z3 = fzero(@f, 1);
 z4 = fzero(@f, 2);
 plotf = true;
 f(z1);
+k = waitforbuttonpress;
+clf;
 f(z2);
+k = waitforbuttonpress;
+clf;
 f(z3);
+k = waitforbuttonpress;
+clf;
 f(z4);
 plotf = false;
 k = waitforbuttonpress;
@@ -57,8 +63,43 @@ clf;
 plot([z1, z2, z3, z4], [0 0 0 0], 'bo'); hold on
 ezplot(@f, [-pi pi]);
 k = waitforbuttonpress;
+clf;
 
 %5
+p2 = 7;
+clf;
+z1 = fzero(@f, -1);
+z2 = fzero(@f, -0.5);
+z3 = fzero(@f, 0);
+z4 = fzero(@f, 0.5);
+z5 = fzero(@f, 1);
+z6 = fzero(@f, 3);
+plotf = true;
+f(z1);
+k = waitforbuttonpress;
+clf;
+f(z2);
+k = waitforbuttonpress;
+clf;
+f(z3);
+k = waitforbuttonpress;
+clf;
+f(z4);
+k = waitforbuttonpress;
+clf;
+f(z5);
+k = waitforbuttonpress;
+clf;
+f(z6);
+k = waitforbuttonpress;
+clf;
+plotf = false;
+
+clf;
+plot([z1, z2, z3, z4, z5, z6], [0 0 0 0 0 0], 'bo'); hold on
+ezplot(@f, [-pi pi]);
+k = waitforbuttonpress;
+clf;
 
 %6
 
