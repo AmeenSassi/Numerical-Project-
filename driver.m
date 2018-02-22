@@ -102,6 +102,10 @@ k = waitforbuttonpress;
 clf;
 
 %6
+p2 = 4;
+clf;
+ezplot(@f, [-pi pi]); hold on
+plot([-5 5], [0 0]);
 
 %7
 
