@@ -19,7 +19,8 @@ disp(f(-pi/4));
 k = waitforbuttonpress;
 
 %2
-ezplot(@f, [-pi pi])
+plot([-pi/4, pi/4], [0 0], 'bo'); hold on
+ezplot(@f, [-pi pi]);
 k = waitforbuttonpress;
 
 %3
@@ -106,12 +107,93 @@ p2 = 4;
 clf;
 ezplot(@f, [-pi pi]); hold on
 plot([-5 5], [0 0]);
+k = waitforbuttonpress;
 
 %7
+currentRootCount = 0;
+i = 3;
+boundCount = 0;
+bounds = 1:1
+while (i < 5 || currentRootCount > 0)
+    previ = i;
+    i = i + 1;
+	p2 = i;
+    nextRootCount = findRootCount();
+    while abs(nextRootCount - currentRootCount) > 2
+        i = (i+previ) / 2;
+        p2 = i;
+        nextRootCount = findRootCount();
+    end
+    if nextRootCount ~= currentRootCount
+        boundCount = boundCount + 1;
+        bounds(boundCount) = findRootBoundary(previ, i, currentRootCount, nextRootCount)
+        disp(bounds(boundCount));
+        disp(nextRootCount);
+        currentRootCount = nextRootCount;
+    end
+end
+disp(bounds);
+clf;
+plot([0 bounds(1)], [0 0]); hold on
+plot([bounds(1) bounds(1)], [0 2]); hold on
+plot([bounds(1) bounds(2)], [2 2]); hold on
+plot([bounds(2) bounds(2)], [2 4]); hold on
+plot([bounds(2) bounds(3)], [4 4]); hold on
+plot([bounds(3) bounds(3)], [4 6]); hold on
+plot([bounds(3) bounds(4)], [6 6]); hold on
+plot([bounds(4) bounds(4)], [6 4]); hold on
+plot([bounds(4) bounds(5)], [4 4]); hold on
+plot([bounds(5) bounds(5)], [4 2]); hold on
+plot([bounds(5) bounds(6)], [2 2]); hold on
+plot([bounds(6) bounds(6)], [2 0]); hold on
+plot([bounds(6) 12], [0 0]);
 
 
 
 
+function out = findRootBoundary(a, b, aCount, bCount)
+    global p2;
+    epsilon = 0.001;
+    while abs(a-b) > epsilon
+        mid = (a + b)/2;
+        p2 = mid;
+        midCount = findRootCount();
+        if (midCount == aCount)
+            a = mid;
+        else
+            b = mid;
+        end
+    end
+    out = (a + b)/2;
+end
+
+function out = findRootCount()
+    epsilon = 0.001;
+    usedslots = 0;
+    root = 1:6;
+    for i = 1:6
+       root(i) = -1; 
+    end
+    for i = -100:100
+        [r, y, flag] = fzero(@f, pi*i/100);
+        if flag ~= 1
+           out = 0;
+           return;
+        end
+        r = mod(r, 2*pi);
+        found = false;
+        for j = 1:usedslots
+            if abs(root(j) - r) < epsilon
+                found = true;
+            end
+        end
+        if ~found
+            usedslots = usedslots + 1;
+            root(usedslots) = r;
+        end
+    end
+    out = usedslots;
+end
 
 
 
